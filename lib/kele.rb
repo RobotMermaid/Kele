@@ -14,10 +14,16 @@ class Kele
   end
 
    def get_me
-      url= 'https://www.bloc.io/api/v1/users/me'
-      response = self.class.get(url, headers: { "authorization" => @auth_token })
+      #url= 'https://www.bloc.io/api/v1/users/me'
+      response = self.class.get('/users/me', headers: { "authorization" => @auth_token })
       #puts response["bio"]
       JSON.parse(response.body)
       #puts JSON.pretty_generate(response)
+   end
+
+   def get_mentor_availability(mentor_id)
+     response = self.class.get("/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token })
+     #Convert the JSON response to a Ruby array.
+     JSON.parse(response.body)
    end
 end

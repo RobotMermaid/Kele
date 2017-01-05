@@ -18,15 +18,16 @@ class Kele
 
    def get_me
       #url= 'https://www.bloc.io/api/v1/users/me'
-      response = self.class.get('/users/me', headers: { "authorization" => @auth_token })
+      response = self.class.get('/users/me',
+      headers: { "authorization" => @auth_token })
       #puts response["bio"]
       JSON.parse(response.body)
       #puts JSON.pretty_generate(response)
    end
 
    def get_mentor_availability(mentor_id)
-     response = self.class.get("/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token })
-     #Convert the JSON response to a Ruby array.
+     response = self.class.get("/mentors/#{mentor_id}/student_availability",
+     headers: { "authorization" => @auth_token })
      JSON.parse(response.body)
    end
 
@@ -36,15 +37,18 @@ class Kele
      JSON.parse(response.body)
    end
 
-   def create_message(sender, recipient_id, subject, stripped_text)
+   def create_message(sender, recipient_id, token, subject, stripped_text)
      response = self.class.post('/messages',
      headers: { "authorization" => @auth_token },
-     "sender"=> sender,
-     "recipient_id"=> recipient_id,
-     "subject"=> subject,
-     "stripped-text"=> stripped_text
-     )
-     puts response
-     JSON.parse(response.body)
+     body: {
+             "sender"=> sender,
+             "recipient_id"=> recipient_id,
+             "token"=> token,
+             "subject"=> subject,
+             "stripped-text"=> stripped_text})
+    # result shows up at https://www.bloc.io/api/v1/message_threads
+     #puts response.body
+     #JSON.parse(response.body)
+     #response
    end
 end
